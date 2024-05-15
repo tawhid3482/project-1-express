@@ -1,4 +1,5 @@
-import express, { NextFunction, Request, Response } from "express"
+import { error } from "console"
+import express, { NextFunction, Request, Response, response } from "express"
 const app = express()
 const port = 3000
 
@@ -26,6 +27,27 @@ userRoute.get('/create-user', (req: Request, res: Response) => {
     })
 })
 
+const logger = (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.url)
+    next()
+}
+
+app.get('/', logger, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        res.send(something)
+    }
+    catch (error) {
+        console.log(error)
+        next(error)
+        // res.status(400).json({
+        //     success: false,
+        //     message: 'Failed to get data'
+        // })
+    }
+})
+
+
+
 courseRoute.post('/create-course', (req: Request, res: Response) => {
     const cours = req.body;
     console.log(cours)
@@ -38,10 +60,6 @@ courseRoute.post('/create-course', (req: Request, res: Response) => {
 })
 
 
-const logger = (req: Request, res: Response, next: NextFunction) => {
-    // console.log(req.url)
-    next()
-}
 
 
 app.get('/', logger, (req: Request, res: Response) => {
@@ -56,6 +74,19 @@ app.post("/", (req: Request, res: Response) => {
     res.json({
         message: 'successfully recived data'
     })
+})
+
+
+/// global error handler
+
+app.use((error: any, req: Request, res: Response, next: NextFunction) => {
+    // console.log(error)
+    if (error) {
+        res.status(400).json({
+            success: false,
+            message: 'Failed to get data'
+        })
+    }
 })
 
 export default app
