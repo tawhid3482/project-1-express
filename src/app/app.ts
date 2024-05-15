@@ -5,9 +5,13 @@ const port = 3000
 /// parsers
  app.use(express.json())
  app.use(express.text())
-app.get('/', (req: Request, res: Response) => {
+
+app.get('/:id/:Id', (req: Request, res: Response) => {
+    console.log(req.params)
+    
     res.send('Hello developersss')
 })
+
 app.post("/",( req:Request , res: Response )=>{
     console.log(req.body)
     // res.send('got data')

@@ -9,7 +9,8 @@ const port = 3000;
 /// parsers
 app.use(express_1.default.json());
 app.use(express_1.default.text());
-app.get('/', (req, res) => {
+app.get('/:id/:Id', (req, res) => {
+    console.log(req.params);
     res.send('Hello developersss');
 });
 app.post("/", (req, res) => {
