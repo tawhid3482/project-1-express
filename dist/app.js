@@ -11,16 +11,18 @@ app.use(express_1.default.json());
 app.use(express_1.default.text());
 /// middleware
 const userRoute = express_1.default.Router();
-userRoute.get('api/v1/users/create-user', (req, res) => {
+app.use('/api/v1/users', userRoute);
+userRoute.get('/create-user', (req, res) => {
     const user = req.body;
     console.log(user);
     res.json({
         seccess: true,
-        message: 'ami paisi'
+        message: 'ami paisi',
+        data: user
     });
 });
 const logger = (req, res, next) => {
-    console.log(req.url);
+    // console.log(req.url)
     next();
 };
 app.get('/', logger, (req, res) => {
