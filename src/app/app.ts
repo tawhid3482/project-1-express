@@ -1,4 +1,4 @@
-import express, { Request, Response, response } from "express"
+import express, { NextFunction, Request, Response, response } from "express"
 const app = express()
 const port = 3000
 
@@ -6,8 +6,27 @@ const port = 3000
  app.use(express.json())
  app.use(express.text())
 
-app.get('/:id/:Id', (req: Request, res: Response) => {
-    console.log(req.params)
+ /// middleware
+
+ const userRoute = express.Router()
+ userRoute.get('api/v1/users/create-user',(req:Request, res:Response)=>{
+    const user = req.body;
+    console.log(user)
+    res.json({
+        seccess : true,
+        message:'ami paisi'
+    })
+ })
+
+
+ const logger = (req:Request, res: Response, next:NextFunction)=>{
+    console.log(req.url)
+    next()
+ }
+
+
+app.get('/', logger, (req: Request, res: Response) => {
+    console.log(req.query)
     
     res.send('Hello developersss')
 })
