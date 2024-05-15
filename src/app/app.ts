@@ -9,8 +9,11 @@ app.use(express.text())
 /// middleware
 
 const userRoute = express.Router()
+const courseRoute = express.Router()
 
 app.use('/api/v1/users', userRoute)
+
+app.use('/api/v1/course', courseRoute)
 
 userRoute.get('/create-user', (req: Request, res: Response) => {
     const user = req.body;
@@ -20,6 +23,17 @@ userRoute.get('/create-user', (req: Request, res: Response) => {
         seccess: true,
         message: 'ami paisi',
         data: user
+    })
+})
+
+courseRoute.post('/create-course', (req: Request, res: Response) => {
+    const cours = req.body;
+    console.log(cours)
+
+    res.json({
+        seccess: true,
+        message: 'post complete',
+        data: cours
     })
 })
 
